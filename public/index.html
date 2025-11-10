@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Herramienta de inventario</title>
+    <link rel="stylesheet" href="/static/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <main class="container">
+      <h1>Herramienta de inventario</h1>
+      <section class="container-input-file">
+        <p>
+          Sube tu archivo Excel para actualizar la base de datos y luego
+          presiona ‘Refrescar’ para ver los cambios.
+        </p>
+        <form id="upload-form">
+          <label class="upload-area" for="file-input">
+            <span>Carga tu excel aqui (.xlsx o .xls).</span>
+            <input type="file" id="file-input" name="file" hidden />
+          </label>
+          <button type="submit">Subir</button>
+        </form>
+        <div id="preview"></div>
+      </section>
+      <section class="container-table">
+        <button id="refresh">
+          <i class="fa-solid fa-rotate-right"></i> Refrescar
+        </button>
+        <table id="table">
+          <thead>
+            <tr>
+              <th>id</th>
+              <th>nombre_producto</th>
+              <th>categoria</th>
+              <th>marca</th>
+              <th>descripcion</th>
+              <th>stock_actual</th>
+              <th>costo_unitario</th>
+              <th>precio_venta</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr></tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+    <script src="/static/app.js"></script>
+  </body>
+</html>
