@@ -15,10 +15,13 @@ form.addEventListener("submit", async (e) => {
   const formData = new FormData();
   formData.append("file", file);
 
-  const res = await fetch("http://localhost:8000/subir-excel", {
-    method: "POST",
-    body: formData,
-  });
+  const res = await fetch(
+    "https://inventario-con-excel.onrender.com/subir-excel",
+    {
+      method: "POST",
+      body: formData,
+    }
+  );
 
   if (res.ok) {
     alert("Archivo subido correctamente.");
@@ -30,7 +33,7 @@ form.addEventListener("submit", async (e) => {
 function refresh() {
   const tbody = document.querySelector("#table tbody");
   tbody.innerHTML = "";
-  fetch("http://localhost:8000/productos")
+  fetch("https://inventario-con-excel.onrender.com/productos")
     .then((response) => response.json())
     .then((data) => {
       const tbody = document.querySelector("#table tbody");
