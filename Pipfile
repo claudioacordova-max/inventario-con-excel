@@ -10,6 +10,7 @@ fastapi = "*"
 uvicorn = "*"
 python-multipart = "*"
 pydantic = "*"
+xlsxwriter = "*"
 
 [dev-packages]
 

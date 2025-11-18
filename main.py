@@ -1,11 +1,12 @@
 # run with: uvicorn main:app --reload
-from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi import FastAPI, UploadFile, File, HTTPException, responses
+from fastapi.responses import StreamingResponse
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from database import agregar_productos, ver_productos
-from read_excel import leer_excel, validar_df, crear_diccionario, validar_tipos
+from read_excel import leer_excel, validar_df, crear_diccionario, validar_tipos, generar_excel_productos
 
 
 app = FastAPI()
@@ -73,3 +74,14 @@ async def post_subir_excel(file: UploadFile = File(...)):
             status_code=500,
             detail=f"Error inesperado: {str(e)}"
         )
+
+
+@app.get("/exportar-excel/")
+async def exportar_excel():
+    archivo_excel = generar_excel_productos()
+
+    return StreamingResponse(
+        archivo_excel,
+        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        headers={"Content-Disposition": "attachment; filename=productos.xlsx"}
+    )

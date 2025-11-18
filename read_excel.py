@@ -2,7 +2,8 @@ import pandas as pd
 import math
 from pydantic import BaseModel, field_validator
 from typing import Optional
-from database import ids_validos
+from database import ids_validos, ver_productos
+from io import BytesIO
 
 
 # modelo de pydantic
@@ -68,3 +69,22 @@ def crear_diccionario(df):
 def validar_tipos(productos_dict):
     productos = Productos(productos=productos_dict)
     return productos.productos
+
+
+def generar_excel_productos():
+    ignorar = ["fecha_creacion", "fecha_actualizacion"]
+    datos = ver_productos()
+    datos = [
+        {k: v for k, v in producto.items() if k not in ignorar}
+        for producto in datos
+    ]
+    datos = [dato for dato in datos]
+    df = pd.DataFrame(datos)
+
+    # Crear archivo Excel en memoria
+    output = BytesIO()
+    with pd.ExcelWriter(output, engine="xlsxwriter") as writer:
+        df.to_excel(writer, index=False, sheet_name="Productos")
+    output.seek(0)
+
+    return output
