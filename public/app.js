@@ -74,3 +74,28 @@ function refresh() {
 }
 
 document.getElementById("refresh").addEventListener("click", refresh);
+
+function download() {
+  fetch("https://inventario-con-excel.onrender.com/exportar-excel")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Error al obtener el archivo");
+      }
+      return response.blob();
+    })
+    .then((blob) => {
+      const url = window.URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "productos.xlsx";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      window.URL.revokeObjectURL(url);
+    })
+    .catch((error) => console.error("Error al exportar los datos:", error));
+}
+
+document.getElementById("download").addEventListener("click", download);
