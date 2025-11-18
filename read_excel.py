@@ -74,12 +74,17 @@ def validar_tipos(productos_dict):
 def generar_excel_productos():
     ignorar = ["fecha_creacion", "fecha_actualizacion"]
     datos = ver_productos()
-    datos = [
-        {k: v for k, v in producto.items() if k not in ignorar}
-        for producto in datos
-    ]
-    datos = [dato for dato in datos]
-    df = pd.DataFrame(datos)
+
+    datos_limpios = []
+    for producto in datos:
+        nuevo = {
+            ("id" if k == "id_producto" else k): v
+            for k, v in producto.items()
+            if k not in ignorar
+        }
+        datos_limpios.append(nuevo)
+
+    df = pd.DataFrame(datos_limpios)
 
     # Crear archivo Excel en memoria
     output = BytesIO()
